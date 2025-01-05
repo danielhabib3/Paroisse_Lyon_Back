@@ -4,14 +4,16 @@ public class User {
     private String username;
     private String password;
     private String role;
+    private String telephone;
 
     public User() {
     }
 
-    public User(String username, String password, String role) {
+    public User(String username, String password, String role, String telephone) {
         this.username = username;
         this.password = password;
         this.role = role;
+        this.telephone = telephone;
     }
 
     public String getUsername() {
@@ -26,6 +28,10 @@ public class User {
         return this.role;
     }
 
+    public String getTelephone() {
+        return this.telephone;
+    }
+
     public void setUsername(String username) {
         this.username = username;
     }
@@ -38,19 +44,8 @@ public class User {
         this.role = role;
     }
 
-    public User username(String username) {
-        this.username = username;
-        return this;
-    }
-
-    public User password(String password) {
-        this.password = password;
-        return this;
-    }
-
-    public User role(String role) {
-        this.role = role;
-        return this;
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
     }
 
     @Override

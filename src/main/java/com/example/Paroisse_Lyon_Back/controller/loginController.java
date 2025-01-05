@@ -48,7 +48,9 @@ public class loginController {
     @PostMapping("/register")
     public String register(
             @RequestParam("username") String username,
-            @RequestParam("password") String password
+            @RequestParam("password") String password,
+            @RequestParam("role") String role,
+            @RequestParam("telephone") String telephone
     ) {
         System.out.println(username);
         System.out.println(password);
