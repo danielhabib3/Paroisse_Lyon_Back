@@ -2,13 +2,12 @@ package com.example.Paroisse_Lyon_Back.controller;
 
 
 import com.example.Paroisse_Lyon_Back.model.User;
-import com.example.Paroisse_Lyon_Back.services.loginService;
-import org.springframework.http.HttpStatus;
+import com.example.Paroisse_Lyon_Back.services.accountService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -16,14 +15,14 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api")
 @CrossOrigin(origins = "http://localhost:4200")
-public class loginController {
+public class accountController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(
             @RequestParam("username") String username,
             @RequestParam("password") String password
     ) {
-        Optional<User> user = loginService.verify(username, password);
+        Optional<User> user = accountService.verify(username, password);
         Map<String, Object> response = new HashMap<>();
         // Login successful
         if (user.isPresent() && password.equals(user.get().getPassword())) {
@@ -46,16 +45,33 @@ public class loginController {
     }
 
     @PostMapping("/register")
-    public String register(
+    public ResponseEntity<?> register(
             @RequestParam("username") String username,
             @RequestParam("password") String password,
             @RequestParam("role") String role,
             @RequestParam("telephone") String telephone
     ) {
-        System.out.println(username);
-        System.out.println(password);
+        Optional<User> user = accountService.verify(username, password);
+        Map<String, Object> response = new HashMap<>();
+        // The username doesn't exist
+        if(user.isEmpty()) {
+            accountService.register(username, password, role, telephone);
+            response.put("status", "success");
+            response.put("message", "User registered successfully");
+        }
+        // The username already exists
+        else {
+            response.put("status", "success");
+            response.put("message", "The username already exists");
+        }
+        return ResponseEntity.ok(response);
+    }
 
-        return "Register";
+    @GetMapping("/roles")
+    public ResponseEntity<?> getRoles() {
+        Map<String, Object> response = new HashMap<>();
+        response.put("roles", accountService.getRoles());
+        return ResponseEntity.ok(response);
     }
 
 }
